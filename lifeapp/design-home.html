@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Align - Daily Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #F4F3F1; /* Warm Sand base */
+        }
+    </style>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-primary-fixed": "#00210b", outline: "#717785", "on-tertiary-fixed-variant": "#594400", "tertiary-fixed": "#ffdf96", "on-secondary-fixed-variant": "#324e2a", "on-primary-fixed-variant": "#2d4e33", "on-secondary-fixed": "#062104", "error-container": "#ffdad6", "on-primary-container": "#f7fff3", "on-tertiary-container": "#fffbff", tertiary: "#735800", "surface-variant": "#e0e4de", "primary-fixed-dim": "#aad0ad", "surface-container-highest": "#e0e4de", secondary: "#496640", error: "#ba1a1a", "inverse-surface": "#2d322e", "on-background": "#181d19", "on-error-container": "#93000a", "on-tertiary": "#ffffff", "inverse-on-surface": "#eef2ec", background: "#f7faf4", "surface-tint": "#44664a", "on-error": "#ffffff", "on-primary": "#ffffff", "surface-bright": "#f7faf4", "secondary-fixed": "#caecbc", "on-secondary-container": "#4f6c45", "inverse-primary": "#aad0ad", "on-surface": "#181d19", "surface-dim": "#d7dbd5", "surface-container": "#ebefe9", "surface-container-low": "#f1f5ef", "tertiary-container": "#8f701b", "tertiary-fixed-dim": "#e8c265", "primary-container": "#5a7d5f", "surface-container-lowest": "#ffffff", "primary-fixed": "#c6ecc8", primary: "#426447", surface: "#f7faf4", "on-tertiary-fixed": "#251a00", "on-secondary": "#ffffff", "secondary-fixed-dim": "#afd0a1", "on-surface-variant": "#414753", "secondary-container": "#caecbc", "outline-variant": "#c1c6d5", "surface-container-high": "#e5e9e3"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {unit: "8px", "section-gap": "80px", "margin-mobile": "24px", "margin-desktop": "64px", gutter: "16px", "container-max": "1140px", xl: "32px", base: "8px", sm: "8px", margin: "24px", xs: "4px", lg: "24px", md: "16px"}, fontFamily: {display: ["Inter"], h2: ["Noto Serif"], "body-sm": ["Manrope"], h3: ["Noto Serif"], "body-lg": ["Inter"], h1: ["Noto Serif"], "label-caps": ["Manrope"], "body-md": ["Manrope"], "headline-md": ["Inter"], "headline-lg": ["Inter"], "label-md": ["Inter"], headline: ["Inter"], body: ["Inter"], label: ["Inter"]}, fontSize: {display: ["42px", {lineHeight: "52px", letterSpacing: "-0.02em", fontWeight: "400"}], h2: ["24px", {lineHeight: "32px", fontWeight: "400"}], "body-sm": ["14px", {lineHeight: "22px", fontWeight: "400"}], h3: ["20px", {lineHeight: "28px", fontWeight: "500"}], "body-lg": ["16px", {lineHeight: "1.5", fontWeight: "400"}], h1: ["32px", {lineHeight: "40px", fontWeight: "400"}], "label-caps": ["12px", {lineHeight: "16px", letterSpacing: "0.1em", fontWeight: "700"}], "body-md": ["16px", {lineHeight: "26px", fontWeight: "400"}], "headline-md": ["24px", {lineHeight: "1.3", fontWeight: "600"}], "headline-lg": ["32px", {lineHeight: "1.2", fontWeight: "600"}], "label-md": ["14px", {lineHeight: "1.4", fontWeight: "500"}]}}}};</script>
+<style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-background dark:bg-stone-950 border-b border-outline-variant/30 z-50">
+<div class="flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="notes">notes</span>
+<span class="font-serif italic text-primary text-xl">Align</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+<img alt="User" data-alt="A professional and serene portrait of a person in a soft-lit environment, reflecting a sense of calm intentionality. The lighting is warm and natural, casting gentle shadows that emphasize a minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5jINpUd80LgKIAUDH1rTRN5jeWKdRe88OG8B6afNtnvUTuF8YdTLVwhFXjC_rRSiE0lNPkQExjVmpV5Az5B5Z74QRxJSLFOiK1KDmZ648L0XQW4A8i5A_ARbvbPDUdr6V1dGLIhUOj8VRB7MggHktnyR34RHJuszq_rifH9NlDbQNQD4BzCl16ewvqf9A2sjnLqr74rrRC8MC4oXJDoZsOZF5mVyJ_f8vIXPEs2-9mTf_t9zSa8AGCH8-noHy5z8AViHkViEj2Io"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1140px] mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<!-- Welcome Greeting Section -->
+<section class="mb-section-gap">
+<p class="font-label-caps text-label-caps text-outline mb-2 uppercase">Monday, October 23rd</p>
+<h1 class="font-display text-display text-primary leading-tight">Good morning, Julian.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mt-4 italic opacity-90">"The secret of getting ahead is getting started. The secret of getting started is breaking your complex overwhelming tasks into small manageable tasks, and starting on the first one."</p>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Wake-up Status Card -->
+<div class="md:col-span-2 bg-surface-bright border border-outline-variant p-8 rounded-xl shadow-sm">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-h3 text-h3 text-primary mb-1">Wake-up Status</h3>
+<p class="font-body-sm text-body-sm text-outline">Intentional start to your day</p>
+</div>
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="light_mode">light_mode</span>
+</div>
+<div class="flex flex-col md:flex-row items-center gap-12">
+<div class="relative w-40 h-40 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary-container" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-dasharray="440" stroke-dashoffset="80" stroke-width="8"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="font-display text-h1 text-primary">06:15</span>
+<span class="font-label-caps text-[10px] text-outline uppercase">Actual</span>
+</div>
+</div>
+<div class="flex-1 w-full space-y-6">
+<div class="flex justify-between items-center border-b border-outline-variant/30 pb-2">
+<span class="font-body-md text-on-surface-variant">Daily Goal</span>
+<span class="font-h3 text-h3">06:00 AM</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant/30 pb-2">
+<span class="font-body-md text-on-surface-variant">Variance</span>
+<span class="font-h3 text-h3 text-error">+15 min</span>
+</div>
+<div class="pt-2">
+<p class="font-body-sm text-body-sm text-outline italic">You achieved 85% of your morning intentionality goal today. A steady foundation for the afternoon.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Daily Motivation / Identity Block -->
+<div class="bg-primary text-on-primary p-8 rounded-xl flex flex-col justify-between shadow-md">
+<div>
+<span class="material-symbols-outlined text-tertiary-fixed mb-6 block text-4xl opacity-50" data-icon="format_quote">format_quote</span>
+<h2 class="font-h2 text-h2 mb-4 leading-snug text-primary-fixed">Your identity is built through small wins.</h2>
+<p class="font-body-md text-primary-fixed-dim italic">"I am the architect of my own focus."</p>
+</div>
+<button class="w-full mt-8 py-3 bg-primary-container text-on-primary-container font-label-caps uppercase tracking-widest text-xs border border-on-primary-container/20 hover:brightness-110 transition-all">
+                    Reaffirm Identity
+                </button>
+</div>
+<!-- Quick Access Grid -->
+<div class="bg-surface-bright border border-outline-variant p-6 rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer group shadow-sm">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</div>
+<span class="font-h3 text-h3 text-primary">Gratitude</span>
+</div>
+<p class="font-body-sm text-on-surface-variant">3 entries pending for today's reflection log.</p>
+</div>
+<div class="bg-surface-bright border border-outline-variant p-6 rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer group shadow-sm">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+</div>
+<span class="font-h3 text-h3 text-primary">Plan</span>
+</div>
+<p class="font-body-sm text-on-surface-variant">Review the architectural blueprint of your day.</p>
+</div>
+<div class="bg-surface-bright border border-outline-variant p-6 rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer group shadow-sm">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</div>
+<span class="font-h3 text-h3 text-primary">Streaks</span>
+</div>
+<div class="flex gap-1 mt-2">
+<div class="w-6 h-6 bg-primary rounded-sm"></div>
+<div class="w-6 h-6 bg-primary rounded-sm"></div>
+<div class="w-6 h-6 bg-primary rounded-sm"></div>
+<div class="w-6 h-6 bg-primary rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest rounded-sm"></div>
+<div class="w-6 h-6 bg-surface-container-highest rounded-sm"></div>
+</div>
+<p class="font-body-sm text-on-surface-variant mt-3">12 days of consistent focus.</p>
+</div>
+</div>
+<!-- Featured Reflection Section -->
+<section class="mt-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+<div class="order-2 md:order-1">
+<h2 class="font-display text-h1 text-primary mb-6">Deep Work Session</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8">Ready to transition into your first block of intentional productivity? Align helps you silence the noise.</p>
+<div class="space-y-4">
+<button class="px-8 py-4 bg-primary text-on-primary font-label-caps uppercase tracking-widest text-sm rounded-sm hover:brightness-110 transition-all shadow-md">
+                            Enter Focus Mode
+                        </button>
+</div>
+</div>
+<div class="order-1 md:order-2 rounded-2xl overflow-hidden aspect-video border border-outline-variant grayscale-[0.2] contrast-[1.1]">
+<img alt="Focus" data-alt="A clean, minimalist desk setup featuring a single open journal with a high-quality fountain pen resting on it. The scene is illuminated by a soft, warm table lamp." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyJEIHswCVOTcdOIh42-kegnNwNrPfmwwT-IVc6LddvDyrwx_koqfEHm1arjxt3gyfc3ZBJJjNkLAmIDUmKVTRRyrc2hgTIEYLHhuoLH8A3Luk2XnkG-P5rRGJfyr6QgcmZpq_o3pDcycyQML66mokuECqlH-t24j_YaYLhKD8I7GxGJDjis-YBOIKvOMBJ79H__8C8yqR0Zpr9bb_lJmXVEE9LcH9aJXa7HtxW40RqWgW6KNi_HL4KApd6-Q-TKQQmhUMPtUp8to"/>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-6 pb-8 pt-4 bg-background dark:bg-stone-950 border-t border-outline-variant/20 z-50 md:hidden">
+<div class="flex flex-col items-center justify-center text-primary font-bold bg-primary/10 rounded-xl p-2 transition-all">
+<span class="material-symbols-outlined" data-icon="home_max">home_max</span>
+<span class="font-serif text-[10px] uppercase tracking-widest mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline p-2 hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="font-serif text-[10px] uppercase tracking-widest mt-1">Plan</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline p-2 hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="self_improvement">self_improvement</span>
+<span class="font-serif text-[10px] uppercase tracking-widest mt-1">Identity</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline p-2 hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-serif text-[10px] uppercase tracking-widest mt-1">Progress</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline p-2 hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+<span class="font-serif text-[10px] uppercase tracking-widest mt-1">More</span>
+</div>
+</nav>
+<!-- Desktop Navigation Cluster -->
+<div class="hidden md:flex fixed top-[72px] left-0 w-full justify-center bg-background/90 backdrop-blur-md z-40 py-2 border-b border-outline-variant/30">
+<div class="flex gap-8">
+<a class="font-label-caps text-xs uppercase tracking-widest text-primary font-bold border-b-2 border-primary" href="#">Home</a>
+<a class="font-label-caps text-xs uppercase tracking-widest text-outline hover:text-primary transition-colors" href="#">Plan</a>
+<a class="font-label-caps text-xs uppercase tracking-widest text-outline hover:text-primary transition-colors" href="#">Identity</a>
+<a class="font-label-caps text-xs uppercase tracking-widest text-outline hover:text-primary transition-colors" href="#">Progress</a>
+<a class="font-label-caps text-xs uppercase tracking-widest text-outline hover:text-primary transition-colors" href="#">More</a>
+</div>
+</div>
