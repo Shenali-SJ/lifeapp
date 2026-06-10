@@ -16,4 +16,12 @@ enum AppConstants {
     static let plannerReminderBody = "Set up your tomorrow plan this evening."
 
     static let genericErrorMessage = "Something went wrong. Please try again."
+
+    enum Tab {
+        static let home = 0
+        static let plan = 1
+        static let identity = 2
+        static let atomics = 3
+        static let more = 4
+    }
 }

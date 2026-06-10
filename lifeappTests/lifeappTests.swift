@@ -80,6 +80,31 @@ struct lifeappTests {
         #expect(vm.dateTitle.isEmpty == false)
     }
 
+    @Test @MainActor
+    func identityViewModelSanitizesAndLimitsText() {
+        let vm = IdentityViewModel()
+        #expect(vm.sanitizedText("  I am calm.  ") == "I am calm.")
+        let long = String(repeating: "a", count: 120)
+        #expect(vm.sanitizedText(long)?.count == IdentityViewModel.characterLimit)
+        #expect(vm.shouldShowRemainingCount(for: String(repeating: "a", count: 85)) == true)
+        #expect(vm.shouldShowRemainingCount(for: "short") == false)
+    }
+
+    @Test @MainActor
+    func identityViewModelDailyRotationIsStableWithinDay() {
+        let a = IdentityStatement(text: "First", order: 0)
+        let b = IdentityStatement(text: "Second", order: 1)
+        let day = Date().startOfDayValue
+        let first = IdentityViewModel.homeDisplayStatement(from: [a, b], on: day)
+        let second = IdentityViewModel.homeDisplayStatement(from: [a, b], on: day)
+        #expect(first?.text == second?.text)
+    }
+
+    @Test @MainActor
+    func identityViewModelHomePlaceholderWhenEmpty() {
+        #expect(IdentityViewModel.homeDisplayText(from: []) == "Who are you becoming?")
+    }
+
     @Test
     func homeHeaderDateIncludesOrdinal() {
         let cal = Calendar.current

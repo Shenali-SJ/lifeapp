@@ -20,26 +20,30 @@ enum DesignSystem {
         static let hero: CGFloat = 16
     }
 
-    /// Warm editorial palette: creamy ground, deep forest green, white cards.
+    /// Warm editorial palette: warm ground, forest green, gold emphasis, white cards.
     enum Colors {
-        /// Warm cream background `#F7FAF4`
+        /// Cool off-white — legacy screens; prefer `warmCream` for app chrome.
         static let paletteBackground = Color(red: 247 / 255, green: 250 / 255, blue: 244 / 255)
-        /// Primary forest green `#426447`
-        static let primary = Color(red: 0x42 / 255, green: 0x64 / 255, blue: 0x47 / 255)
+        /// Root / scroll background `#F0E6D3`
+        static let warmCream = Color(red: 0.941, green: 0.902, blue: 0.851)
+        /// Reward / emphasis accent `#C9A84C`
+        static let gold = Color(red: 0.788, green: 0.659, blue: 0.298)
+        /// Primary forest green `#3A5A40`
+        static let primary = Color(red: 0x3A / 255, green: 0x5A / 255, blue: 0x40 / 255)
         static let accent = primary
         /// Mint accent `#C6ECC8` — chips, subtle highlights
         static let mintAccent = Color(red: 0xC6 / 255, green: 0xEC / 255, blue: 0xC8 / 255)
         /// Slightly warmer mint for icon chips (organic, not tech)
         static let mintIconBackground = mintAccent
-        /// Card surface — white
-        static let cardBackground = Color.white
+        /// Card surface — very light warm white (softer than `#FFFFFF` on `warmCream`)
+        static let cardBackground = Color(red: 0.98, green: 0.97, blue: 0.96)
         static let secondaryText = Color(red: 88 / 255, green: 82 / 255, blue: 74 / 255)
-        static let borderSubtle = Color(red: 0x42 / 255, green: 0x64 / 255, blue: 0x47 / 255).opacity(0.1)
+        static let borderSubtle = primary.opacity(0.1)
         static let varianceLate = Color(red: 130 / 255, green: 52 / 255, blue: 48 / 255)
         static let success = primary
         static let warning = Color.orange
-        /// Wake-up circle stroke `#5A7D5F`
-        static let wakeCircle = Color(red: 0x5A / 255, green: 0x7D / 255, blue: 0x5F / 255)
+        /// Wake-up circle stroke — matches primary forest green
+        static let wakeCircle = primary
     }
 
     /// Soft card shadow — `radius: 8`, low contrast (warm editorial).

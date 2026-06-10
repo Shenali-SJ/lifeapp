@@ -4,7 +4,7 @@ import SwiftUI
 @main
 struct AppEntry: App {
     init() {
-        TabBarAppearance.configure()
+        NavigationBarAppearance.configure()
     }
 
     @Environment(\.scenePhase) private var scenePhase
@@ -16,6 +16,7 @@ struct AppEntry: App {
             WakeUpEntry.self,
             GratitudeEntry.self,
             GoalIdentityEntry.self,
+            IdentityStatement.self,
             BrainGameReminderState.self,
             DayPlanEntry.self,
             DailyMotivationEntry.self

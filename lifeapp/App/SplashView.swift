@@ -36,7 +36,7 @@ struct SplashView: View {
         }
         .padding(.horizontal, DesignSystem.Spacing.screenHorizontal)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(DesignSystem.Colors.paletteBackground)
+        .background(DesignSystem.Colors.warmCream)
         .task {
             await runSequence()
         }

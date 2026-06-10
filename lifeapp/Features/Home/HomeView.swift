@@ -4,6 +4,7 @@ import UIKit
 
 struct HomeView: View {
     @Binding var path: NavigationPath
+    @Binding var selectedTab: Int
     @State private var viewModel = HomeViewModel()
     @State private var isShowingTimePicker = false
     @State private var wakePickerTime = Date()
@@ -17,9 +18,11 @@ struct HomeView: View {
     @Query private var todayWakeEntries: [WakeUpEntry]
     @Query(sort: [SortDescriptor(\WakeUpEntry.day, order: .reverse)]) private var wakeEntriesByDay: [WakeUpEntry]
     @Query private var brainGameEntries: [BrainGameReminderState]
+    @Query(sort: [SortDescriptor(\IdentityStatement.order)]) private var identityStatements: [IdentityStatement]
 
-    init(path: Binding<NavigationPath>) {
+    init(path: Binding<NavigationPath>, selectedTab: Binding<Int>) {
         _path = path
+        _selectedTab = selectedTab
         _viewModel = State(initialValue: HomeViewModel())
         _isShowingTimePicker = State(initialValue: false)
         _wakePickerTime = State(initialValue: Date())
@@ -47,9 +50,9 @@ struct HomeView: View {
             .padding(.bottom, DesignSystem.Spacing.section)
         }
         .scrollContentBackground(.hidden)
-        .background(DesignSystem.Colors.paletteBackground)
+        .background(DesignSystem.Colors.warmCream)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(DesignSystem.Colors.paletteBackground, for: .navigationBar)
+        .toolbarBackground(DesignSystem.Colors.warmCream, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -236,8 +239,8 @@ struct HomeView: View {
                     .foregroundStyle(DesignSystem.Colors.secondaryText.opacity(0.75))
             )
             .font(DesignSystem.EditorialFont.georgiaItalic(16))
-            .foregroundStyle(DesignSystem.Colors.secondaryText)
-            .tint(DesignSystem.Colors.primary)
+            .foregroundStyle(DesignSystem.Colors.gold)
+            .tint(DesignSystem.Colors.gold)
             .textFieldStyle(.plain)
             .background(Color.clear)
             .focused($isAffirmationFocused)
@@ -285,17 +288,31 @@ struct HomeView: View {
                         .stroke(DesignSystem.Colors.wakeCircle, lineWidth: 3.5)
                         .frame(width: 160, height: 160)
                         .shadow(color: .black.opacity(0.06), radius: 1, x: 0, y: 1)
-                    VStack(spacing: DesignSystem.Spacing.sm) {
-                        Text(viewModel.formatTime(entry?.actualWakeTime))
-                            .font(.custom("Georgia", size: 28))
-                            .fontWeight(.regular)
-                            .foregroundStyle(Color(uiColor: UIColor.label))
-                            .monospacedDigit()
-                        if entry?.actualWakeTime != nil {
-                            Text("ACTUAL")
-                                .font(.custom("Georgia", size: 10))
-                                .tracking(2)
-                                .foregroundStyle(DesignSystem.Colors.secondaryText)
+                    Group {
+                        if let actual = entry?.actualWakeTime {
+                            VStack(spacing: DesignSystem.Spacing.sm) {
+                                Text(viewModel.formatTime(actual))
+                                    .font(.custom("Georgia", size: 28))
+                                    .fontWeight(.regular)
+                                    .foregroundStyle(Color(uiColor: UIColor.label))
+                                    .monospacedDigit()
+                                Text("ACTUAL")
+                                    .font(.custom("Georgia", size: 10))
+                                    .tracking(2)
+                                    .foregroundStyle(DesignSystem.Colors.secondaryText)
+                            }
+                        } else {
+                            VStack(spacing: DesignSystem.Spacing.sm) {
+                                Image(systemName: "sunrise")
+                                    .font(.system(size: 28, weight: .regular))
+                                    .foregroundStyle(DesignSystem.Colors.primary.opacity(0.5))
+                                    .accessibilityHidden(true)
+                                Text("Log your rise")
+                                    .font(.custom("Georgia", size: 12))
+                                    .italic()
+                                    .foregroundStyle(DesignSystem.Colors.primary.opacity(0.5))
+                                    .multilineTextAlignment(.center)
+                            }
                         }
                     }
                 }
@@ -312,11 +329,7 @@ struct HomeView: View {
                     .background(DesignSystem.Colors.primary.opacity(0.08))
                     .padding(.vertical, DesignSystem.Spacing.md)
 
-                infoRow(title: "Variance",
-                         value: variance.text,
-                         titleSize: 16,
-                         valueSize: 16,
-                         isVarianceLate: variance.isLate)
+                varianceRow(label: variance.label, value: variance.value)
             }
         }
         .padding(DesignSystem.Spacing.xl)
@@ -324,38 +337,33 @@ struct HomeView: View {
     }
 
     private var identityCard: some View {
-        VStack(alignment: .leading, spacing: DesignSystem.Spacing.xl) {
-            Text("Your identity is built through")
-                .font(.custom("NotoSerif-Regular", size: 24))
-                .foregroundStyle(.white)
+        VStack(alignment: .leading, spacing: DesignSystem.Spacing.lg) {
+            Text(IdentityViewModel.homeDisplayText(from: identityStatements))
+                .font(DesignSystem.EditorialFont.georgiaItalic(16))
+                .foregroundStyle(DesignSystem.Colors.primary)
                 .fixedSize(horizontal: false, vertical: true)
 
-            Text("small wins.")
-                .font(.custom("NotoSerif-Regular", size: 24))
-                .foregroundStyle(.white)
-                .fixedSize(horizontal: false, vertical: true)
-
-            Text("What do you want to achieve in life?")
-                .font(.custom("NotoSerif-Regular", size: 16))
-                .foregroundStyle(.white.opacity(0.82))
-                .lineSpacing(4)
-
-            Button("REAFFIRM YOUR IDENTITY") {
-                path.append(AppRoute.goals)
+            Button {
+                selectedTab = AppConstants.Tab.identity
+            } label: {
+                Text("Reaffirm")
+                    .font(DesignSystem.EditorialFont.georgia(13))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, DesignSystem.Spacing.sm)
+                    .background(DesignSystem.Colors.primary)
+                    .clipShape(Capsule())
             }
-            .font(.custom("NotoSerif-Regular", size: 12))
-            .tracking(1.2)
-            .frame(maxWidth: .infinity, minHeight: 50)
-            .background(Color.white)
-            .foregroundStyle(DesignSystem.Colors.primary)
-            .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.button))
-            .padding(.top, DesignSystem.Spacing.sm)
-            .accessibilityLabel("Reaffirm your identity")
+            .accessibilityLabel("Reaffirm identity")
         }
         .padding(DesignSystem.Spacing.xl)
-        .background(DesignSystem.Colors.primary)
-        .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card))
-        .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 4)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .editorialCardSurface()
+        .overlay(alignment: .leading) {
+            RoundedRectangle(cornerRadius: 2)
+                .fill(DesignSystem.Colors.primary)
+                .frame(width: 3)
+        }
     }
 
     private var quickSections: some View {
@@ -363,21 +371,25 @@ struct HomeView: View {
             simpleSectionCard(
                 icon: "calendar",
                 title: "Plan",
-                subtitle: "Start planning your day now, never too late.",
                 action: nil
-            )
+            ) {
+                Text("Start planning your day now, never too late.")
+                    .foregroundStyle(DesignSystem.Colors.secondaryText)
+            }
             simpleSectionCard(
                 icon: "heart.fill",
                 title: "Gratitude",
-                subtitle: gratitudeSubtitle,
                 action: { path.append(AppRoute.gratitude) }
-            )
+            ) {
+                gratitudeSubtitleText
+            }
             simpleSectionCard(
                 icon: "bolt.fill",
                 title: "Atomics",
-                subtitle: atomicsSubtitle,
                 action: { path.append(AppRoute.brainGames) }
-            )
+            ) {
+                atomicsSubtitleText
+            }
         }
     }
 
@@ -389,7 +401,7 @@ struct HomeView: View {
                         colors: [
                             Color(red: 72 / 255, green: 58 / 255, blue: 48 / 255).opacity(0.5),
                             Color(red: 120 / 255, green: 98 / 255, blue: 72 / 255).opacity(0.32),
-                            DesignSystem.Colors.paletteBackground.opacity(0.35)
+                            DesignSystem.Colors.warmCream.opacity(0.35)
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
@@ -427,7 +439,12 @@ struct HomeView: View {
         }
     }
 
-    private func simpleSectionCard(icon: String, title: String, subtitle: String, action: (() -> Void)?) -> some View {
+    private func simpleSectionCard<Subtitle: View>(
+        icon: String,
+        title: String,
+        action: (() -> Void)?,
+        @ViewBuilder subtitle: () -> Subtitle
+    ) -> some View {
         Button(action: { action?() }) {
             HStack(alignment: .center, spacing: DesignSystem.Spacing.lg) {
                 ZStack {
@@ -442,9 +459,8 @@ struct HomeView: View {
                     Text(title)
                         .font(.custom("NotoSerif-Regular", size: 20))
                         .foregroundStyle(DesignSystem.Colors.primary)
-                    Text(subtitle)
+                    subtitle()
                         .font(.custom("NotoSerif-Italic", size: 16))
-                        .foregroundStyle(DesignSystem.Colors.secondaryText)
                         .multilineTextAlignment(.leading)
                         .lineSpacing(4)
                         .fixedSize(horizontal: false, vertical: true)
@@ -471,7 +487,7 @@ struct HomeView: View {
             } label: {
                 Text(displayedGoal)
                     .font(.custom("NotoSerif-Regular", size: 20))
-                    .foregroundStyle(DesignSystem.Colors.primary)
+                    .foregroundStyle(DesignSystem.Colors.gold)
                     .multilineTextAlignment(.trailing)
             }
             .buttonStyle(.plain)
@@ -479,22 +495,33 @@ struct HomeView: View {
         }
     }
 
-    private func infoRow(
-        title: String,
-        value: String,
-        titleSize: CGFloat,
-        valueSize: CGFloat,
-        isVarianceLate: Bool
-    ) -> some View {
-        HStack(alignment: .firstTextBaseline) {
-            Text(title)
-                .font(.custom("NotoSerif-Regular", size: titleSize))
-                .foregroundStyle(DesignSystem.Colors.primary)
-            Spacer(minLength: DesignSystem.Spacing.lg)
+    @ViewBuilder
+    private func varianceRow(label: String, value: String) -> some View {
+        let forestGreen = Color(red: 0.227, green: 0.353, blue: 0.251)
+        let aheadGold = Color(red: 0.788, green: 0.659, blue: 0.298)
+        let accent: Color = {
+            if label == "Behind goal by" { return DesignSystem.Colors.varianceLate }
+            if label == "Ahead of goal by" { return aheadGold }
+            return .gray
+        }()
+
+        if value == "Right on time ✓" {
             Text(value)
-                .font(.custom("NotoSerif-Regular", size: valueSize))
-                .foregroundStyle(isVarianceLate ? DesignSystem.Colors.varianceLate : DesignSystem.Colors.primary)
-                .multilineTextAlignment(.trailing)
+                .font(.custom("Georgia", size: 15))
+                .foregroundStyle(forestGreen)
+                .frame(maxWidth: .infinity)
+                .multilineTextAlignment(.center)
+        } else {
+            HStack(alignment: .firstTextBaseline) {
+                Text(label)
+                    .font(.custom("Georgia", size: 15))
+                    .foregroundStyle(accent)
+                Spacer(minLength: DesignSystem.Spacing.lg)
+                Text(value)
+                    .font(.custom("Georgia", size: 15))
+                    .foregroundStyle(accent)
+                    .multilineTextAlignment(.trailing)
+            }
         }
     }
 
@@ -502,22 +529,47 @@ struct HomeView: View {
         StreakService().currentStreak(for: gratitudeEntries.map(\.day))
     }
 
-    private var gratitudeSubtitle: String {
+    private var gratitudeSubtitleText: Text {
+        let name = viewModel.userName
+        let body = Text("What are you grateful for \(name)?")
+            .foregroundStyle(DesignSystem.Colors.secondaryText)
         if gratitudeStreak > 1 {
-            return "What are you grateful for \(viewModel.userName)? Streak: \(gratitudeStreak) days."
+            return body
+                + Text(" Streak: ")
+                    .foregroundStyle(DesignSystem.Colors.secondaryText)
+                + Text("\(gratitudeStreak)")
+                    .foregroundStyle(DesignSystem.Colors.gold)
+                + Text(" days.")
+                    .foregroundStyle(DesignSystem.Colors.secondaryText)
         }
-        return "What are you grateful for \(viewModel.userName)?"
+        return body
     }
 
-    private var atomicsSubtitle: String {
+    private var atomicsSubtitleText: Text {
         let brainGamesDays = brainGameEntries
             .filter(\.acknowledged)
             .map(\.day)
         let brainGamesStreak = StreakService().currentStreak(for: brainGamesDays)
         let habits = viewModel.atomicHabits(brainGamesStreak: brainGamesStreak)
-        return habits
-            .map { "\($0.name): \($0.streak)d" }
-            .joined(separator: "  •  ")
+        guard let first = habits.first else {
+            return Text("")
+                .foregroundStyle(DesignSystem.Colors.secondaryText)
+        }
+        var combined = atomicsHabitText(first)
+        for habit in habits.dropFirst() {
+            combined = combined
+                + Text("  •  ")
+                    .foregroundStyle(DesignSystem.Colors.secondaryText)
+                + atomicsHabitText(habit)
+        }
+        return combined
+    }
+
+    private func atomicsHabitText(_ habit: AtomicHabit) -> Text {
+        Text("\(habit.name): ")
+            .foregroundStyle(DesignSystem.Colors.secondaryText)
+            + Text("\(habit.streak)d")
+            .foregroundStyle(DesignSystem.Colors.gold)
     }
 }
 

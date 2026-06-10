@@ -13,7 +13,7 @@ struct MorePlaceholderView: View {
                 .padding(.horizontal, DesignSystem.Spacing.xl)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(DesignSystem.Colors.paletteBackground)
+        .background(DesignSystem.Colors.warmCream)
         .navigationTitle("More")
         .navigationBarTitleDisplayMode(.inline)
     }
